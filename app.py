@@ -21,17 +21,23 @@ db.init_app(app)
 def index():
     return render_template('index.html')
 
-@app.route('/acceso_ciudadano2')
-def acceso_ciudadano():
-    return render_template('acceso_ciudadano2.html')
+@app.route('/nosotros')
+def nosotros():
+    return render_template('nosotros.html')
+
 
 @app.route('/mapa')
 def mapa():
     return render_template('mapa.html')
 
-@app.route('/prueba')
-def prueba():
-    return render_template('prueba.html')
+@app.route('/vista_bomberos')
+def vista_bomberos():
+    return render_template('vista_bomberos.html')
+
+@app.route('/vista_login_ciudadano')
+def vista_login_ciudadano():
+    return render_template('vista_login_ciudadano.html')
+
 
 #PAGINA PARA GUARDAR MARCADORES A LA DB
 @app.route('/save_marker', methods=['POST'])
