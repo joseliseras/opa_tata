@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Registro ciudadano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        
+        body {
+            background-color: #ffa07a;
+            color: #fff; 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #ffa07a; 
+            padding: 20px;
+            text-align: left;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        header img {
+            display: block;
+            float: left;
+            margin-right: 20px;
+        }
+
+        form {
+            background-color: #ffffff; 
+            padding: 22px;
+            border-radius: 8px;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff7c02;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            justify-content: center
+        }
+
+        button:hover {
+            background-color: #ff9d1d;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-red-500 via-amber-300 to-orange-100">
+    <header class="bg-orange-100 h-24">
+        <nav class="flex justify-around items-center h-16 text-white ml-4">
+            <div>
+                <img class="h-40 w-44 mt-6 rounded-2xl" src="static/Opa_tata_jaz.png" alt="OpaTata">
+                <a href="#"></a>
+
+            </div>
+
+            <div>
+                <ul class="flex justify-between sw-1/3 text-black gap-x-80 mt-6 text-lg font-medium">
+                    <li><a href="{{url_for('nosotros') }}">NOSOTROS</a></li>
+                    <li><a href="{{url_for('contacto') }}">CONTACTO</a></li>
+                </ul>
+            </div>
+
+
+    </nav>
+
+    </header>
+
+ <main>
+    
+    <h2 class="mt-10 mb-4 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">Registro ciudadano</h2>
+
+    <form class="text-black" action="procesar_registro.php" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+    
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+    
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudad" name="ciudad" required>
+    
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required>
+    
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    
+        <label for="cantidad_agua">Cantidad de Agua en la Piscina:</label>
+        <input type="number" id="cantidad_agua" name="cantidad_agua" required>
+    
+        <label for="coordenadas">Ingrese Coordenadas:</label>
+        <input type="text" id="coordenadas" name="coordenadas" required>
+        <button class="mt-4 font-bold p-2 text-black mx-auto">
+            <a href="{{ url_for('index') }}">Enviar Registro</a>
+        </button>
+        
+    </form>
+    </main>
+    
+    <!-- Puedes añadir más contenido o estilos según tus preferencias -->
+    
+    </body>
+</html>

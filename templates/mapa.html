@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        #map_cf587602d5c36c108b12c3ce25377e72 {
+            position: relative;
+            width: 80.0%;
+            height: 80.0%;
+            left: 10.0%;
+            top: 10.0%;
+        }
+        .leaflet-container { font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>opa tata</h1>
+
+    <!--<select id="marker-type">
+        <option value="incendio">Incendio</option>
+        <option value="piscina">Piscina</option>
+        
+
+    </select>-->
+
+    <button onclick="setCurrentMarkerType('incendio')">incendio</button> <br/>
+    <button onclick="setCurrentMarkerType('piscina')">piscina</button> <br/>
+    
+
+
+    
+    <div class="folium-map" id="map_cf587602d5c36c108b12c3ce25377e72" ></div>
+</body>
+
+<script>
+    // CREACION DEL MAPA CON LAS CONFIGURACIONES DEL TAMAÑO Y CENTRO
+    var map_cf587602d5c36c108b12c3ce25377e72 = L.map("map_cf587602d5c36c108b12c3ce25377e72", {
+        center: [-25.286169, -57.561744],
+        crs: L.CRS.EPSG3857,
+        zoom: 10,
+        zoomControl: true,
+        preferCanvas: false,
+    });
+
+    var tile_layer_738c32361734a8aa6276ec8534c60ae3 = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        "attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.",
+        "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false
+    });
+    tile_layer_738c32361734a8aa6276ec8534c60ae3.addTo(map_cf587602d5c36c108b12c3ce25377e72);
+
+
+   
+   
+    var currentMarkerType = '';
+
+    var blueIcon = L.AwesomeMarkers.icon({
+        icon: 'tint', // Icono para agua
+        markerColor: 'blue'
+    });
+
+    var redIcon = L.AwesomeMarkers.icon({
+        icon: 'fire', // Icono para incendio
+        markerColor: 'red'
+    });
+
+    function setCurrentMarkerType(type) {
+    currentMarkerType = type;
+    }
+
+    
+    function newMarker(e){
+    //if (currentMarkerType === 'piscina') {
+
+    //var blueIcon = L.AwesomeMarkers.icon({
+    //icon: 'tint', // Este es un icono de ejemplo para agua
+    //markerColor: 'blue'
+    //});
+
+    //var markerType = document.getElementById('marker-type').value; // Obtiene el tipo de marcador seleccionado
+    //var icon = markerType === 'piscina' ? blueIcon : redIcon; // Selecciona el ícono basado en el tipo
+
+    // Crea el marcador con el ícono seleccionado
+   // var new_mark = L.marker(e.latlng, { icon: icon }).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+
+    var new_mark = L.marker(e.latlng,{icon: blueIcon}).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+    new_mark.dragging.enable();
+    new_mark.on('dblclick', function(e){ map_cf587602d5c36c108b12c3ce25377e72.removeLayer(e.target)});
+
+    var lat = e.latlng.lat.toFixed(4), lng = e.latlng.lng.toFixed(4);
+    // Resto del código...
+        // Modificar el contenido del popup para incluir un formulario
+        var popupContent = `
+        <form class='bg-gray-200' id="marker-form">
+                <label><b>Latitud:</b> ${lat}</label><br>
+                <label><b>Longitud:</b> ${lng}</label><br>
+                <label><b>Nombre:</b> <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre..."><br>
+                <label><b>Apellido:</b> <input type="text" id="apellido" name="apellido" placeholder="Ingrese su apellido..."><br>
+                <label><b>Telefono:</b> <input type="text" id="telefono" name="telefono" placeholder="Ingrese su telefono..."><br>
+                <label><b>Email:</b> <input type="text" id="email" name="email" placeholder="Ingrese su email..."><br>
+                <label><b>Ciudad:</b> <input type="text" id="ciudad" name="ciudad" placeholder="Ingrese su ciudad..."><br>
+                <label><b>Cantidad de agua:</b> <input type="text" id="cantidad_agua" name="cantidad_agua" placeholder="Ingrese cantidad de agua..."><br>
+                <label><b>Incidente:</b> ${currentMarkerType}</label><br>
+                <button type="button" onclick="saveMarkerData(${lat}, ${lng})">Guardar</button>
+            </form>
+        `;
+        new_mark.bindPopup(popupContent);
+    };
+
+
+    function newMarker_incendio(e){
+   /* if (currentMarkerType === 'incendio') {
+
+    var redIcon = L.AwesomeMarkers.icon({
+        icon: 'fire', // Este es un icono de ejemplo para incendio
+        markerColor: 'red'
+    })*/
+
+    //var markerType = document.getElementById('marker-type').value; // Obtiene el tipo de marcador seleccionado
+    //var icon = markerType === 'piscina' ? blueIcon : redIcon; // Selecciona el ícono basado en el tipo
+
+    // Crea el marcador con el ícono seleccionado
+    //var new_mark = L.marker(e.latlng, { icon: icon }).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+    var new_mark = L.marker(e.latlng, { icon : redIcon }).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+
+    new_mark.dragging.enable();
+    new_mark.on('dblclick', function(e){ map_cf587602d5c36c108b12c3ce25377e72.removeLayer(e.target)});
+
+    var lat = e.latlng.lat.toFixed(4), lng = e.latlng.lng.toFixed(4);
+    // Resto del código...
+
+        // Modificar el contenido del popup para incluir un formulario
+        var popupContent = `
+        <form class='bg-gray-200' id="marker-form">
+                <label><b>Latitud:</b> ${lat}</label><br>
+                <label><b>Longitud:</b> ${lng}</label><br>
+                <label><b>Nombre:</b> <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre..."><br>
+                <label><b>Apellido:</b> <input type="text" id="apellido" name="apellido" placeholder="Ingrese su apellido..."><br>
+                <label><b>Telefono:</b> <input type="text" id="telefono" name="telefono" placeholder="Ingrese su telefono..."><br>
+                <label><b>Email:</b> <input type="text" id="email" name="email" placeholder="Ingrese su email..."><br>
+                <label><b>Ciudad:</b> <input type="text" id="ciudad" name="ciudad" placeholder="Ingrese su ciudad..."><br>
+                <label><b>Cantidad de agua:</b> <input type="text" id="cantidad_agua" name="cantidad_agua" placeholder="Ingrese cantidad de agua..."><br>
+                <label><b>Incidente:</b> ${currentMarkerType}</label><br>
+                <button type="button" onclick="saveMarkerData(${lat}, ${lng})">Guardar</button>
+            </form>
+        `;
+        new_mark.bindPopup(popupContent);
+    };
+
+    // Función para manejar el guardado de datos del marcador
+    function saveMarkerData(lat, lng) {
+        var nombre = document.getElementById('nombre').value;
+        var apellido = document.getElementById('apellido').value;
+        var telefono = document.getElementById('telefono').value;
+        var email = document.getElementById('email').value;
+        var ciudad = document.getElementById('ciudad').value;
+        var cantidad_agua = document.getElementById('cantidad_agua').value;
+        var incidente = currentMarkerType;
+        console.log('Guardar marcador:', lat, lng, nombre,apellido,telefono,email,ciudad,cantidad_agua,incidente);
+        $.ajax({
+            url: '/save_marker',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ lat: lat, lng: lng, nombre: nombre,apellido: apellido,telefono: telefono,email: email,ciudad: ciudad, cantidad_agua: cantidad_agua,incidente:incidente}),
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    };
+
+    // FUNCION QUE CONECTA AL SERVIDOR PARA CARGA DE INFO DE LA DB A LA VISTA
+    function loadMarkers() {
+
+        $.ajax({
+            url: '/get_markers',
+            method: 'GET',
+            success: function(markers) {
+                markers.forEach(function(marker) {
+                    var icon = marker.incidente === 'piscina' ? blueIcon : redIcon;
+
+                    var markerObj = L.marker([marker.latitude, marker.longitude], {icon:icon}).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+                    var popupContent = "<b>Nombre:</b> " + marker.nombre +"<b>Apellido:</b> " + marker.apellido +"<b>telefono:</b> " + marker.telefono +"<b>Email:</b> " + marker.email+"<b>Ciudad:</b> " + marker.ciudad+"<b>Cantidad de Agua:</b> " + marker.cantidad_agua+"<b>Incidente:</b> " + marker.incidente+ "<br><b>Latitud:</b> " + marker.latitude + "<br><b>Longitud:</b> " + marker.longitude;
+                    markerObj.bindPopup(popupContent);
+                    markerObj.on('click', function() {
+                        editMarker(marker, markerObj);
+                    });
+                });
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function editMarker(marker, markerObj) {
+    var popupContent = `
+        <form id="edit-marker-form">
+            <label><b>Latitud:</b> <input type="text" id="edit-lat" name="lat" value="${marker.latitude}"></label><br>
+            <label><b>Longitud:</b> <input type="text" id="edit-lng" name="lng" value="${marker.longitude}"></label><br>
+            <label><b>Nombre: </b><input type="text" id="edit-nombre" name="nombre" placeholder="Editar nombre..." value="${marker.nombre}"><br>
+            <label><b>Apellido: </b><input type="text" id="edit-apellido" name="apellido" placeholder="Editar apellido..." value="${marker.apellido}"><br>
+            <label><b>Telefono: </b><input type="text" id="edit-telefono" name="telefono" placeholder="Editar telefono..." value="${marker.telefono}"><br>
+            <label><b>Email: </b><input type="text" id="edit-email" name="email" placeholder="Editar email..." value="${marker.email}"><br>
+            <label><b>Ciudad: </b><input type="text" id="edit-ciudad" name="ciudad" placeholder="Editar ciudad..." value="${marker.ciudad}"><br>
+            <label><b>Cantidad de agua: </b><input type="text" id="edit-cantidad_agua" name="cantidad_agua" placeholder="Editar cantidad de agua..." value="${marker.cantidad_agua}"><br>
+            <label><b>Incidente:</b> <input type="text" id="edit-incidente" name="incidente" value="${marker.incidente}"></label><br>
+            
+            <button type="button" onclick="updateMarkerData(${marker.id})">Actualizar</button>
+            <button type="button" onclick="deleteMarker(${marker.id})">Eliminar</button>
+            </form>
+    `;
+    markerObj.bindPopup(popupContent).openPopup();
+}
+
+function updateMarkerData(id) {
+    var lat = document.getElementById('edit-lat').value;
+    var lng = document.getElementById('edit-lng').value;
+    var nombre = document.getElementById('edit-nombre').value;
+    var apellido = document.getElementById('edit-apellido').value;
+    var telefono = document.getElementById('edit-telefono').value;
+    var email = document.getElementById('edit-email').value;
+    var ciudad = document.getElementById('edit-ciudad').value;
+    var cantidad_agua = document.getElementById('edit-cantidad_agua').value;
+    var incidente = currentMarkerType;
+    $.ajax({
+        url: '/update_marker/' + id,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ latitude: lat, longitude: lng, nombre: nombre ,apellido: apellido,telefono: telefono,email: email,ciudad: ciudad, cantidad_agua: cantidad_agua,incidente:incidente }),
+        success: function(response) {
+            console.log('Marcador actualizado:', response);
+            loadMarkers(); // Recargar los marcadores para reflejar los cambios
+        },
+        error: function(error) {
+            console.log('Error al actualizar el marcador:', error);
+        }
+    });
+}
+
+function deleteMarker(id) {
+    $.ajax({
+        url: '/delete_marker/' + id,
+        method: 'DELETE',
+        success: function(response) {
+            console.log('Marcador eliminado:', response);
+            loadMarkers(); // Recargar los marcadores para reflejar los cambios
+        },
+        error: function(error) {
+            console.log('Error al eliminar el marcador:', error);
+        }
+    });
+}
+
+
+    // LLAMAR A LOADMARKERS CUANDO LA PAGINA SE CARGA
+    $(document).ready(function() {
+        loadMarkers();
+    });
+
+    // CREACION DEL MAPA AL DARLE CLICK A LA PANTALLA
+    map_cf587602d5c36c108b12c3ce25377e72.on('click', function(e){
+    if (currentMarkerType === 'piscina') {
+        newMarker(e);
+    } else if (currentMarkerType === 'incendio') {
+        newMarker_incendio(e);
+    }
+});
+</script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title> 
+     <script src="https://cdn.tailwindcss.com"></script>
+     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+     
+</head>
+<body>
+    <!--HEADER-->
+    <header class="bg-orange-100 h-24">
+        <nav class="flex justify-around items-center h-16 text-white">
+            <div>
+                <img class="flex w-44 mt-6 rounded-2xl" src="static/Opa_tata_jaz.png" alt="OpaTata"> 
+                <!--ver ruta de imagen-->
+                <a href="#"></a>
+
+            </div>
+
+            <div>
+                <ul class="flex justify-between sw-1/3 text-black gap-x-80 mt-6 text-lg font-medium">
+                    <li><a href="">Nosotros</a></li>
+                    <li><a href="">Contacto</a></li>
+                </ul>
+            </div>
+
+    </nav>
+
+    </header>
+
+    <!--FIN HEADER-->
+
+    <main class="relative w-full h-[90vh] flex bg-gradient-to-r from-red-500 via-amber-300 to-orange-100 ">
+        <section class="mt-56 ml-48 w-[40%]">
+            <!--  MAPA -->
+            <!-- Swiper -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img class="block w-full h-full object-cover" src="static/Mapa.png" alt=""></div><!--ver ruta de imagen-->
+                    <div class="swiper-slide"><img class="block w-full h-full object-cover" src="static/todos _1.png" alt=""></div><!--ver ruta de imagen-->
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+
+
+        <section class="flex flex-col font-bold font-sans gap-x-0.5 items-center ms-52 mt-56">
+                <h2 class="flex text-5xl">BIENVENIDO A OPA TATA</h2>
+          
+                <form class="flex justify-center gap-8">
+                    <button class="py-2 px-4 bg-black text-white font-semibold 
+                    rounded-lg shadow-md hover:bg-stone-700 focus:outline-none focus:ring-2 
+                    focus:ring-blue-400 focus:ring-opacity-75
+                    flex justify-around text-2xl mt-40 gap-40" >
+                        <a href="">Soy bombero</a>
+                    </button>
+        
+                    <button class= "py-2 px-4 bg-black text-white font-semibold 
+                    rounded-lg shadow-md hover:bg-stone-700 focus:outline-none focus:ring-2 
+                    focus:ring-blue-400 focus:ring-opacity-75
+                    flex justify-around text-2xl mt-40 gap-40" >
+                        <a href="">Soy ciudadano</a>
+                    
+
+        </section>
+    </main>
+    <script src="./static/js/app.js"></script> 
+</body>
+</html>

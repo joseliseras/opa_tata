@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Ciudadano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+<body class="bg-gradient-to-r from-red-500 via-amber-300 to-orange-100">
+    <header class="bg-orange-100 h-24">
+        <nav class="flex justify-around items-center h-16 text-white ml-4">
+            <div>
+                <img class="h-40 w-44 mt-6 rounded-2xl" src="static/Opa_tata_jaz.png" alt="OpaTata">
+                <a href="#"></a>
+
+            </div>
+
+            <div>
+                <ul class="flex justify-between sw-1/3 text-black gap-x-80 mt-6 text-lg font-medium">
+                    <li><a href="{{url_for('nosotros') }}">NOSOTROS</a></li>
+                    <li><a href="{{url_for('contacto') }}">CONTACTO</a></li>
+                </ul>
+            </div>
+
+
+    </nav>
+    </header>
+
+<div class="mt-36 flex min-h-full items-center justify-center px-20 py-12 sm:px-6 lg:px-8">
+    <div class="w-full max-w-sm space-y-10">
+      <div>
+        
+        <h2 class="mt-10 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">Acceso Ciudadano</h2>
+      </div>
+      <form class="space-y-6" action="#" method="POST">
+        <div class="relative -space-y-px rounded-md shadow-sm">
+          <div class="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300"></div>
+          <div>
+            <label for="email-address" class="sr-only">Usuario</label>
+            <input id="email-address" name="email" type="email" autocomplete="email" required class="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder=" Usuario">
+          </div>
+          <div>
+            <label for="password" class="sr-only">Contraseña</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required class="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder=" Contraseña">
+          </div>
+        </div>
+  
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+            <label for="remember-me" class="ml-3 block text-sm leading-6 text-gray-900">Recordarme</label>
+          </div>
+  
+          <div class="text-sm leading-6">
+            <a href="#" class="font-semibold text-orange-500 hover:text-gray-700">Ha olvidado su contraseña?</a>
+          </div>
+        </div>
+  
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Ingresar</button>
+        </div>
+      </form>
+  
+     
+    </div>
+  </div>
+
+  
+</body>
+</html>

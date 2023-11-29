@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Ciudadano</title>
+    <!-- Enlaza tus estilos CSS externos aquí -->
+    <link rel="stylesheet" href="tu_estilo.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4; /* Color de fondo suave /
+            font-family: Arial, sans-serif; / Tipo de letra predeterminado /
+        }
+
+        .acceso-ciudadano-container {
+            text-align: center;
+            background-color: #ffffff; / Fondo del contenedor /
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); / Sombra suave */
+        }
+
+        #logo {
+            max-width: 200px;
+            max-height: 150px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo -->
+    <img id="logo" src="/static/images.jpeg" alt="Logo de tu empresa">
+
+    <!-- Contenedor del acceso ciudadano -->
+    <div class="acceso-ciudadano-container">
+        <h1>Acceso Ciudadano</h1>
+
+        <form action="/ingresar" method="post">
+            <label for="Usuario">Usuario:</label>
+            <input type="text" id="Usuario" name="Usuario" required>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+            <button class="font-bold pt-4 pl-8 text-sky-600">
+                <a href="{{ url_for('index') }}">Ingresar</a>
+            </button>
+    
+        </form>
+    </div>
+
+    <!-- aca se pueden meter mas vainas que lo que -->
+
+</body>
+</html>

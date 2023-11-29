@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        #map_cf587602d5c36c108b12c3ce25377e72 {
+            position: relative;
+            width: 70.0%;
+            height: 70.0%;
+            left: 20.0%;
+            top: 5.0%;
+        }
+        .leaflet-container { font-size: 1rem; }
+    </style>
+
+</head>
+
+    <body>
+
+      
+        <!--HEADER-->
+        <header class="bg-amber-50 h-24">
+            <nav class="flex justify-around items-center h-16 text-white">
+                <div>
+                    <img class="flex w-48 rounded-2xl mt-10 ml-4" src="static/Opa_tata_jaz.png" alt="OpaTata">
+                    <a href="#"></a>
+    
+                </div>
+    
+                <div>
+                    <ul class="flex justify-between sw-1/3 text-black gap-x-80 mt-6 text-lg font-medium font-semibold font-sans">
+                        <li><a href="">Nosotros</a></li>
+                        <li><a href="">Contacto</a></li>
+                    </ul>
+                </div>
+
+    </nav>
+
+    </header>
+
+
+    <button onclick="setCurrentMarkerType('incendio')" class="py-2 px-4 bg-black text-white font-semibold 
+    rounded-lg shadow-md hover:bg-stone-700 focus:outline-none focus:ring-2 
+    focus:ring-blue-400 focus:ring-opacity-75
+    flex justify-around text-2xl gap-40" >Agregar Incendio</button> <br/>
+    
+    
+    <button onclick="setCurrentMarkerType('piscina')" class="py-2 px-4 bg-black text-white font-semibold 
+    rounded-lg shadow-md hover:bg-stone-700 focus:outline-none focus:ring-2 
+    focus:ring-blue-400 focus:ring-opacity-75
+    flex justify-around text-2xl  gap-40" >Agregar Piscina</button> <br/>
+
+    
+    <div class="folium-map" id="map_cf587602d5c36c108b12c3ce25377e72" ></div>
+       
+
+<div>
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+    <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+      <!--
+        Off-canvas menu backdrop, show/hide based on off-canvas menu state.
+  
+        Entering: "transition-opacity ease-linear duration-300"
+          From: "opacity-0"
+          To: "opacity-100"
+        Leaving: "transition-opacity ease-linear duration-300"
+          From: "opacity-100"
+          To: "opacity-0"
+      -->
+      <div class="fixed inset-0 bg-gray-900/80"></div>
+  
+      <div class="fixed inset-0 flex">
+        <!--
+          Off-canvas menu, show/hide based on off-canvas menu state.
+  
+          Entering: "transition ease-in-out duration-300 transform"
+            From: "-translate-x-full"
+            To: "translate-x-0"
+          Leaving: "transition ease-in-out duration-300 transform"
+            From: "translate-x-0"
+            To: "-translate-x-full"
+        -->
+        <div class="relative mr-16 flex w-full max-w-xs flex-1">
+          <!--
+            Close button, show/hide based on off-canvas menu state.
+  
+            Entering: "ease-in-out duration-300"
+              From: "opacity-0"
+              To: "opacity-100"
+            Leaving: "ease-in-out duration-300"
+              From: "opacity-100"
+              To: "opacity-0"
+          -->
+          <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+            <button type="button" class="-m-2.5 p-2.5">
+              <span class="sr-only">Close sidebar</span>
+              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+  
+          <!-- Sidebar component, swap this element with another sidebar if you like -->
+          <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
+            <div class="flex h-16 shrink-0 items-center">
+              <img class="h-8 w-auto" src="static/menu-burger(1).png" alt="Your Company">
+            </div>
+            <nav class="flex flex-1 flex-col">
+              <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                <li>
+                  <ul role="list" class="-mx-2 space-y-1">
+                    <li>
+                      <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                      <a href="#" class="bg-gray-50 text-indigo-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <svg class="h-6 w-6 shrink-0 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                        </svg>
+                        Dashboard
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                        </svg>
+                        Team
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                        </svg>
+                        Projects
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                        </svg>
+                        Calendar
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                        </svg>
+                        Documents
+                      </a>
+                    </li>
+                   
+                  </ul>
+                </li>
+                <li>
+                  <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                  <ul role="list" class="-mx-2 mt-2 space-y-1">
+                    <li>
+                      <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                      <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600">H</span>
+                        <span class="truncate">Heroicons</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600">T</span>
+                        <span class="truncate">Tailwind Labs</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600">W</span>
+                        <span class="truncate">Workcation</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Static sidebar for desktop -->
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      <!-- Sidebar component, swap this element with another sidebar if you like -->
+      <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+        <div class="flex h-16 shrink-0 items-center">
+          <img class="h-8 w-auto" src="static/menu-burger(1).png" alt="Your Company">
+        </div>
+        <nav class="flex flex-1 flex-col mt-4">
+          <ul role="list" class="flex flex-1 flex-col gap-y-7">
+            <li>
+              <ul role="list" class="-mx-2 space-y-1">
+                <li>
+                  <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                  <a href="#" class="bg-white text-black group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                    <svg class="h-6 w-6 shrink-0 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                     
+                    </svg>
+                    <h2 class="flex text-xl">FILTRAR POR:</h2>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="text-gray-700 hover:text-orange-400 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold">
+                    <svg class="h-6 w-6 shrink-0 text-orange-400 hover:text-orange-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                    </svg>
+                    Incendios
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="text-gray-700 hover:text-orange-400 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold mt-3">
+                    <svg class="h-6 w-6 shrink-0 text-orange-400 hover:text-orange-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                    </svg>
+                    Piscinas
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="text-gray-700 hover:text-orange-400 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold mt-3">
+                    <svg class="h-6 w-6 shrink-0 text-orange-400 hover:text-orange-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                    Bomberos
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="text-gray-700 hover:text-orange-400 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold mt-3">
+                    <svg class="h-6 w-6 shrink-0 text-orange-400 hover:text-orange-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                    </svg>
+                    Hospitales
+                  </a>
+                </li>
+              
+        </nav>
+      </div>
+    </div>
+</div>
+
+
+
+
+</body>
+
+<script>
+  // CREACION DEL MAPA CON LAS CONFIGURACIONES DEL TAMAÑO Y CENTRO
+  var map_cf587602d5c36c108b12c3ce25377e72 = L.map("map_cf587602d5c36c108b12c3ce25377e72", {
+      center: [-25.286169, -57.561744],
+      crs: L.CRS.EPSG3857,
+      zoom: 10,
+      zoomControl: true,
+      preferCanvas: false,
+  });
+
+  var tile_layer_738c32361734a8aa6276ec8534c60ae3 = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      "attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.",
+      "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false
+  });
+  tile_layer_738c32361734a8aa6276ec8534c60ae3.addTo(map_cf587602d5c36c108b12c3ce25377e72);
+
+
+ 
+ 
+  var currentMarkerType = '';
+
+  var blueIcon = L.AwesomeMarkers.icon({
+      icon: 'tint', // Icono para agua
+      markerColor: 'blue'
+  });
+
+  var redIcon = L.AwesomeMarkers.icon({
+      icon: 'fire', // Icono para incendio
+      markerColor: 'red'
+  });
+
+  function setCurrentMarkerType(type) {
+  currentMarkerType = type;
+  }
+
+  
+  function newMarker(e){
+  //if (currentMarkerType === 'piscina') {
+
+  //var blueIcon = L.AwesomeMarkers.icon({
+  //icon: 'tint', // Este es un icono de ejemplo para agua
+  //markerColor: 'blue'
+  //});
+
+  //var markerType = document.getElementById('marker-type').value; // Obtiene el tipo de marcador seleccionado
+  //var icon = markerType === 'piscina' ? blueIcon : redIcon; // Selecciona el ícono basado en el tipo
+
+  // Crea el marcador con el ícono seleccionado
+ // var new_mark = L.marker(e.latlng, { icon: icon }).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+
+  var new_mark = L.marker(e.latlng,{icon: blueIcon}).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+  new_mark.dragging.enable();
+  new_mark.on('dblclick', function(e){ map_cf587602d5c36c108b12c3ce25377e72.removeLayer(e.target)});
+
+  var lat = e.latlng.lat.toFixed(4), lng = e.latlng.lng.toFixed(4);
+  // Resto del código...
+      // Modificar el contenido del popup para incluir un formulario
+      var popupContent = `
+      <form class='bg-gray-200' id="marker-form">
+              <label><b>Latitud:</b> ${lat}</label><br>
+              <label><b>Longitud:</b> ${lng}</label><br>
+              <label><b>Nombre:</b> <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre..."><br>
+              <label><b>Apellido:</b> <input type="text" id="apellido" name="apellido" placeholder="Ingrese su apellido..."><br>
+              <label><b>Telefono:</b> <input type="text" id="telefono" name="telefono" placeholder="Ingrese su telefono..."><br>
+              <label><b>Email:</b> <input type="text" id="email" name="email" placeholder="Ingrese su email..."><br>
+              <label><b>Ciudad:</b> <input type="text" id="ciudad" name="ciudad" placeholder="Ingrese su ciudad..."><br>
+              <label><b>Cantidad de agua:</b> <input type="text" id="cantidad_agua" name="cantidad_agua" placeholder="Ingrese cantidad de agua..."><br>
+              <label><b>Incidente:</b> ${currentMarkerType}</label><br>
+              <button type="button" onclick="saveMarkerData(${lat}, ${lng})">Guardar</button>
+          </form>
+      `;
+      new_mark.bindPopup(popupContent);
+  };
+
+
+  function newMarker_incendio(e){
+ /* if (currentMarkerType === 'incendio') {
+
+  var redIcon = L.AwesomeMarkers.icon({
+      icon: 'fire', // Este es un icono de ejemplo para incendio
+      markerColor: 'red'
+  })*/
+
+  //var markerType = document.getElementById('marker-type').value; // Obtiene el tipo de marcador seleccionado
+  //var icon = markerType === 'piscina' ? blueIcon : redIcon; // Selecciona el ícono basado en el tipo
+
+  // Crea el marcador con el ícono seleccionado
+  //var new_mark = L.marker(e.latlng, { icon: icon }).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+  var new_mark = L.marker(e.latlng, { icon : redIcon }).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+
+  new_mark.dragging.enable();
+  new_mark.on('dblclick', function(e){ map_cf587602d5c36c108b12c3ce25377e72.removeLayer(e.target)});
+
+  var lat = e.latlng.lat.toFixed(4), lng = e.latlng.lng.toFixed(4);
+  // Resto del código...
+
+      // Modificar el contenido del popup para incluir un formulario
+      var popupContent = `
+      <form class='bg-gray-200' id="marker-form">
+              <label><b>Latitud:</b> ${lat}</label><br>
+              <label><b>Longitud:</b> ${lng}</label><br>
+              <label><b>Nombre:</b> <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre..."><br>
+              <label><b>Apellido:</b> <input type="text" id="apellido" name="apellido" placeholder="Ingrese su apellido..."><br>
+              <label><b>Telefono:</b> <input type="text" id="telefono" name="telefono" placeholder="Ingrese su telefono..."><br>
+              <label><b>Email:</b> <input type="text" id="email" name="email" placeholder="Ingrese su email..."><br>
+              <label><b>Ciudad:</b> <input type="text" id="ciudad" name="ciudad" placeholder="Ingrese su ciudad..."><br>
+              <label><b>Cantidad de agua:</b> <input type="text" id="cantidad_agua" name="cantidad_agua" placeholder="Ingrese cantidad de agua..."><br>
+              <label><b>Incidente:</b> ${currentMarkerType}</label><br>
+              <button type="button" onclick="saveMarkerData(${lat}, ${lng})">Guardar</button>
+          </form>
+      `;
+      new_mark.bindPopup(popupContent);
+  };
+
+  // Función para manejar el guardado de datos del marcador
+  function saveMarkerData(lat, lng) {
+      var nombre = document.getElementById('nombre').value;
+      var apellido = document.getElementById('apellido').value;
+      var telefono = document.getElementById('telefono').value;
+      var email = document.getElementById('email').value;
+      var ciudad = document.getElementById('ciudad').value;
+      var cantidad_agua = document.getElementById('cantidad_agua').value;
+      var incidente = currentMarkerType;
+      console.log('Guardar marcador:', lat, lng, nombre,apellido,telefono,email,ciudad,cantidad_agua,incidente);
+      $.ajax({
+          url: '/save_marker',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ lat: lat, lng: lng, nombre: nombre,apellido: apellido,telefono: telefono,email: email,ciudad: ciudad, cantidad_agua: cantidad_agua,incidente:incidente}),
+          success: function(response) {
+              console.log(response);
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+  };
+
+  // FUNCION QUE CONECTA AL SERVIDOR PARA CARGA DE INFO DE LA DB A LA VISTA
+  function loadMarkers() {
+
+      $.ajax({
+          url: '/get_markers',
+          method: 'GET',
+          success: function(markers) {
+              markers.forEach(function(marker) {
+                  var icon = marker.incidente === 'piscina' ? blueIcon : redIcon;
+
+                  var markerObj = L.marker([marker.latitude, marker.longitude], {icon:icon}).addTo(map_cf587602d5c36c108b12c3ce25377e72);
+                  var popupContent = "<b>Nombre:</b> " + marker.nombre +"<b>Apellido:</b> " + marker.apellido +"<b>telefono:</b> " + marker.telefono +"<b>Email:</b> " + marker.email+"<b>Ciudad:</b> " + marker.ciudad+"<b>Cantidad de Agua:</b> " + marker.cantidad_agua+"<b>Incidente:</b> " + marker.incidente+ "<br><b>Latitud:</b> " + marker.latitude + "<br><b>Longitud:</b> " + marker.longitude;
+                  markerObj.bindPopup(popupContent);
+                  markerObj.on('click', function() {
+                      editMarker(marker, markerObj);
+                  });
+              });
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+  }
+
+  function editMarker(marker, markerObj) {
+  var popupContent = `
+      <form id="edit-marker-form">
+          <label><b>Latitud:</b> <input type="text" id="edit-lat" name="lat" value="${marker.latitude}"></label><br>
+          <label><b>Longitud:</b> <input type="text" id="edit-lng" name="lng" value="${marker.longitude}"></label><br>
+          <label><b>Nombre: </b><input type="text" id="edit-nombre" name="nombre" placeholder="Editar nombre..." value="${marker.nombre}"><br>
+          <label><b>Apellido: </b><input type="text" id="edit-apellido" name="apellido" placeholder="Editar apellido..." value="${marker.apellido}"><br>
+          <label><b>Telefono: </b><input type="text" id="edit-telefono" name="telefono" placeholder="Editar telefono..." value="${marker.telefono}"><br>
+          <label><b>Email: </b><input type="text" id="edit-email" name="email" placeholder="Editar email..." value="${marker.email}"><br>
+          <label><b>Ciudad: </b><input type="text" id="edit-ciudad" name="ciudad" placeholder="Editar ciudad..." value="${marker.ciudad}"><br>
+          <label><b>Cantidad de agua: </b><input type="text" id="edit-cantidad_agua" name="cantidad_agua" placeholder="Editar cantidad de agua..." value="${marker.cantidad_agua}"><br>
+          <label><b>Incidente:</b> <input type="text" id="edit-incidente" name="incidente" value="${marker.incidente}"></label><br>
+          
+          <button type="button" onclick="updateMarkerData(${marker.id})">Actualizar</button>
+          <button type="button" onclick="deleteMarker(${marker.id})">Eliminar</button>
+          </form>
+  `;
+  markerObj.bindPopup(popupContent).openPopup();
+}
+
+function updateMarkerData(id) {
+  var lat = document.getElementById('edit-lat').value;
+  var lng = document.getElementById('edit-lng').value;
+  var nombre = document.getElementById('edit-nombre').value;
+  var apellido = document.getElementById('edit-apellido').value;
+  var telefono = document.getElementById('edit-telefono').value;
+  var email = document.getElementById('edit-email').value;
+  var ciudad = document.getElementById('edit-ciudad').value;
+  var cantidad_agua = document.getElementById('edit-cantidad_agua').value;
+  var incidente = currentMarkerType;
+  $.ajax({
+      url: '/update_marker/' + id,
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ latitude: lat, longitude: lng, nombre: nombre ,apellido: apellido,telefono: telefono,email: email,ciudad: ciudad, cantidad_agua: cantidad_agua,incidente:incidente }),
+      success: function(response) {
+          console.log('Marcador actualizado:', response);
+          loadMarkers(); // Recargar los marcadores para reflejar los cambios
+      },
+      error: function(error) {
+          console.log('Error al actualizar el marcador:', error);
+      }
+  });
+}
+
+function deleteMarker(id) {
+  $.ajax({
+      url: '/delete_marker/' + id,
+      method: 'DELETE',
+      success: function(response) {
+          console.log('Marcador eliminado:', response);
+          loadMarkers(); // Recargar los marcadores para reflejar los cambios
+      },
+      error: function(error) {
+          console.log('Error al eliminar el marcador:', error);
+      }
+  });
+}
+
+
+  // LLAMAR A LOADMARKERS CUANDO LA PAGINA SE CARGA
+  $(document).ready(function() {
+      loadMarkers();
+  });
+
+  // CREACION DEL MAPA AL DARLE CLICK A LA PANTALLA
+  map_cf587602d5c36c108b12c3ce25377e72.on('click', function(e){
+  if (currentMarkerType === 'piscina') {
+      newMarker(e);
+  } else if (currentMarkerType === 'incendio') {
+      newMarker_incendio(e);
+  }
+});
+</script>
+
+</html>
